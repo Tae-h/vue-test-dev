@@ -35,9 +35,9 @@ metadata:
 spec:
   tls:
     - hosts:
-        - miles-front.devel.kakao.com #애조로 도메인
+        - miles.devel.kakao.com #애조로 도메인
   rules:
-    - host: miles-front.devel.kakao.com #애조로 도메인
+    - host: miles.devel.kakao.com #애조로 도메인
       http:
         paths:
           - path: /
