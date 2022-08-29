@@ -1,0 +1,62 @@
+# deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miles-front-deployment
+spec:
+  selector:
+    matchLabels:
+      app: miles-front-svc #service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: miles-front-svc #service
+    spec:
+      containers:
+        - name: miles-front-svc #service
+          image: idock.daumkakao.io/miles-org/miles-test:latest
+          #image: idock.daumkakao.io/miles-d2hub/deployment-test:latest #d2hub 이미지 링크
+          imagePullPolicy: Always #항상 마지막 버전을 들고온다
+          resources:
+            requests:
+              cpu: 1024m
+              memory: 256Mi
+          ports:
+            - containerPort: 8080
+--- #ingress
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: miles-front-ingress
+  namespace: default
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+    - hosts:
+        - miles-front.devel.kakao.com #애조로 도메인
+  rules:
+    - host: miles-front.devel.kakao.com #애조로 도메인
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: miles-front-svc #service
+              servicePort: 8080
+--- #service
+apiVersion: v1
+kind: Service
+metadata:
+  name: miles-front-svc
+  labels:
+    app: miles-front-svc
+spec:
+  type: NodePort
+  ports:
+    - name: miles-port #http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: miles-front-svc
