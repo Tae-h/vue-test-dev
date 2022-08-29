@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: miles-front-svc #service
-          image: idock.daumkakao.io/miles-org/miles-test:latest
           #image: idock.daumkakao.io/miles-d2hub/deployment-test:latest #d2hub 이미지 링크
+          image: idock.daumkakao.io/miles-org/miles-test
           imagePullPolicy: Always #항상 마지막 버전을 들고온다
           resources:
             requests:
