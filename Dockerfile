@@ -1,4 +1,6 @@
 FROM node:14-alpine as builder
+
+# 이미지 내에서 명령어 실행함(현 위치로 잡음) / 디렉토리 설정
 WORKDIR /usr/src/app
 
 COPY package*.json ./
